@@ -1,9 +1,8 @@
 /* global $ */
 'use strict';
 
-const api = (function () {
-
-  const search = function(query, callback) {
+const api = {
+  search: function (query, callback) {
     $.ajax({
       type: 'GET',
       url: '/v1/notes/',
@@ -11,18 +10,16 @@ const api = (function () {
       data: query,
       success: callback
     });
-  };
-
-  const details = function(id, callback) {
+  },
+  details: function (id, callback) {
     $.ajax({
       type: 'GET',
       dataType: 'json',
       url: `/v1/notes/${id}`,
       success: callback
     });
-  };
-
-  const update = function(id, obj, callback) {
+  },
+  update: function(id, obj, callback) {
     $.ajax({
       type: 'PUT',
       url: `/v1/notes/${id}`,
@@ -31,12 +28,5 @@ const api = (function () {
       data: JSON.stringify(obj),
       success: callback
     });
-  };
-
-  return {
-    search,
-    details,
-    update
-  };
-  
-}());
+  }
+}; 
