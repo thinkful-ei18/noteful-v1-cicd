@@ -1,7 +1,7 @@
 'use strict';
 
 // Simple In-Memory Database (async-callback version)
-const DELAY = 1000;
+const DELAY = 0;
 const { promisify } = require('util');
 
 const simDB = {
@@ -83,19 +83,6 @@ const simDB = {
         callback(err);
       }
     }, DELAY);
-  },
-
-  // NOTE destroy will be used with testing 
-  destroy: function (callback) {
-    setTimeout(() => {
-      try {
-        this.nextVal = 1000;
-        this.data = [];
-        callback(null, this);
-      } catch (err) {
-        callback(err);
-      }
-    }, DELAY);
   }
 
 };
@@ -106,8 +93,7 @@ const simDB_Async = {
   filter: promisify(simDB.filter),
   find: promisify(simDB.find),
   update: promisify(simDB.update),
-  delete: promisify(simDB.delete),
-  destroy: promisify(simDB.destroy)
+  delete: promisify(simDB.delete)
 };
 
 module.exports = Object.create(simDB_Async);

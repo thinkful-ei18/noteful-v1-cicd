@@ -9,8 +9,10 @@ const notesRouter = require('./routers/notes.router');
 // Create an Express application
 const app = express();
 
-// Log all requests
-app.use(morgan('common'));
+// Log all requests. Skip logging during tests
+app.use(morgan(process.env.NODE_ENV === 'development' ? 'dev' : 'common', {
+  skip: () => process.env.NODE_ENV === 'test'
+}));
 
 // Create a static webserver
 app.use(express.static('public'));
@@ -29,18 +31,21 @@ app.use(function (req, res, next) {
 });
 
 // Catch-all Error handler
-// NOTE: we'll prevent stacktrace leak in later exercise
+// Add NODE_ENV check to prevent stacktrace leak
 app.use(function (err, req, res, next) {
   res.status(err.status || 500);
   res.json({
     message: err.message,
-    error: err 
+    error: (process.env.NODE_ENV === 'development') ? err : {}
   });
 });
 
-// Listen for incoming connections
-app.listen(PORT, function () {
-  console.info(`Server listening on ${this.address().port}`);
-}).on('error', err => {
-  console.error(err);
-});
+if (require.main === module) {
+  app.listen(PORT, function () {
+    console.info(`Server listening on ${this.address().port}`);
+  }).on('error', err => {
+    console.error(err);
+  });  
+}
+
+module.exports = app; // Export for testing
