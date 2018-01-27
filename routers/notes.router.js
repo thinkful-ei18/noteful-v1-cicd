@@ -12,7 +12,7 @@ const notes = simDB.initialize(data);
 
 // Get All (and search by query)
 router.get('/notes', (req, res, next) => {
-  const {searchTerm} = req.query;
+  const { searchTerm } = req.query;
 
   notes.filter(searchTerm, (err, list) => {
     if (err) {
@@ -82,7 +82,7 @@ router.post('/notes', (req, res, next) => {
     err.status = 400;
     return next(err);
   }
-  
+
   notes.create(newItem, (err, item) => {
     if (err) {
       return next(err);

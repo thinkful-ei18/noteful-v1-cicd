@@ -1,7 +1,7 @@
 /** 
 * ESLint: http://eslint.org/docs/user-guide/configuring
 */
-module.exports =  {
+module.exports = {
   // sourceType: `script` or `module` for ES6 Modules
   // ECMA Versions:
   //    6 = 2015
