@@ -5,7 +5,7 @@ const noteful = (function () {
 
   function render() {
 
-    const notesList = generateNotesList(store.notes, store.currentNote.id);
+    const notesList = generateNotesList(store.notes, store.currentNote);
     $('.js-notes-list').html(notesList);
 
     const editForm = $('.js-note-edit-form');
@@ -16,9 +16,9 @@ const noteful = (function () {
   /**
    * GENERATE HTML FUNCTIONS
    */
-  function generateNotesList(list, current) {
+  function generateNotesList(list, currentNote) {
     const listItems = list.map(item => `
-    <li data-id="${item.id}" class="js-note-element ${current === item.id ? 'active' : ''}">
+    <li data-id="${item.id}" class="js-note-element ${currentNote.id === item.id ? 'active' : ''}">
       <a href="#" class="name js-note-show-link">${item.title}</a>
     </li>`);
     return listItems.join('');
