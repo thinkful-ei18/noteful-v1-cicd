@@ -29,7 +29,6 @@ const simDB = {
   },
 
   filter: function (term, callback) {
-    
     setTimeout(() => {
       try {
         let list = term ? this.data.filter(item => item.title.includes(term)) : this.data;
@@ -50,23 +49,6 @@ const simDB = {
         callback(err);
       }
     }, DELAY);
-  },
-
-  replace: function (id, replaceItem, callback) {
-    setTimeout(() => {
-      try {
-        id = Number(id);
-        const index = this.data.findIndex(item => item.id === id);
-        if (index === -1) {
-          return callback(null, null);
-        }
-        replaceItem.id = id;
-        this.data.splice(index, 1, replaceItem);
-        callback(null, replaceItem);
-      } catch (err) {
-        callback(err);
-      }
-    });
   },
 
   update: function (id, updateItem, callback) {

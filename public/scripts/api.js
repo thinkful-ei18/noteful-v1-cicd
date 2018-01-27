@@ -28,5 +28,24 @@ const api = {
       data: JSON.stringify(obj),
       success: callback
     });
+  },
+  create: function(obj, callback) {
+    $.ajax({
+      type: 'POST',
+      url: '/v1/notes',
+      contentType: 'application/json',
+      dataType: 'json',
+      processData:false,
+      data: JSON.stringify(obj),
+      success: callback
+    });
+  },
+  remove: function(id, callback) {
+    return $.ajax({
+      type: 'DELETE',
+      url: `/v1/notes/${id}`,
+      dataType: 'json',
+      success: callback
+    });
   }
 }; 
