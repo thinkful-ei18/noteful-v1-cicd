@@ -52,11 +52,10 @@ const noteful = (function () {
     $('.js-notes-search-form').on('submit', event => {
       event.preventDefault();
 
-      store.currentSearchTerm = $('.js-note-search-entry').val();
-
-      const query = store.currentSearchTerm ? { searchTerm: store.currentSearchTerm } : {};
-
-      api.search(query, response => {
+      const searchTerm = $('.js-note-search-entry').val();
+      store.currentSearchTerm =  searchTerm ? { searchTerm } : {};
+      
+      api.search(store.currentSearchTerm, response => {
         store.notes = response;
         render();
       });
