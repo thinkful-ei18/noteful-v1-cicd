@@ -24,7 +24,7 @@ app.use(express.json());
 
 // Get All (and search by query)
 app.get('/v1/notes', (req, res, next) => {
-  const {searchTerm} = req.query;
+  const { searchTerm } = req.query;
 
   notes.filter(searchTerm, (err, list) => {
     if (err) {
