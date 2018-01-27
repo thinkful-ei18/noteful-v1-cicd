@@ -40,12 +40,23 @@ app.use(function (err, req, res, next) {
   });
 });
 
+// Promisify `listen` and resulting `server`
+app.listenAsync = function (port) {
+  return new Promise((resolve, reject) => {
+    this.listen(port, function () {
+      const util = require('util');
+      this.closeAsync = util.promisify(this.close);
+      resolve(this);
+    }).on('error', reject);
+  });
+};
+
 if (require.main === module) {
-  app.listen(PORT, function () {
-    console.info(`Server listening on ${this.address().port}`);
-  }).on('error', err => {
-    console.error(err);
-  });  
+  app.listenAsync(PORT)
+    .then(server => {
+      console.info(`Server listening on ${server.address().port}`);
+    })
+    .catch(console.error);
 }
 
 module.exports = app; // Export for testing
