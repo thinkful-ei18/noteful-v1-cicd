@@ -82,19 +82,6 @@ const simDB = {
         callback(err);
       }
     }, DELAY);
-  },
-
-  // NOTE destroy will be used with testing 
-  destroy: function (callback) {
-    setTimeout(() => {
-      try {
-        this.nextVal = 1000;
-        this.data = [];
-        callback(null, this);
-      } catch (err) {
-        callback(err);
-      }
-    }, DELAY);
   }
 
 };
