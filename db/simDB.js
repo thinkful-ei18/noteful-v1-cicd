@@ -93,8 +93,7 @@ const simDB_Async = {
   filter: promisify(simDB.filter),
   find: promisify(simDB.find),
   update: promisify(simDB.update),
-  delete: promisify(simDB.delete),
-  destroy: promisify(simDB.destroy)
+  delete: promisify(simDB.delete)
 };
 
 module.exports = Object.create(simDB_Async);
