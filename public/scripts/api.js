@@ -22,9 +22,21 @@ const api = (function () {
     });
   };
 
+  const update = function(id, obj, callback) {
+    $.ajax({
+      type: 'PUT',
+      url: `/v1/notes/${id}`,
+      contentType: 'application/json',
+      dataType: 'json',
+      data: JSON.stringify(obj),
+      success: callback
+    });
+  };
+
   return {
     search,
-    details
+    details,
+    update
   };
   
 }());
