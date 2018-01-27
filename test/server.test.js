@@ -11,6 +11,11 @@ const chai = require('chai');
 const chaiHttp = require('chai-http');
 const chaiSpies = require('chai-spies');
 
+const expect = chai.expect;
+
+chai.use(chaiHttp);
+chai.use(chaiSpies);
+
 // Promisify `listen` and resulting `server`
 app.listenAsync = function (port) {
   return new Promise((resolve, reject) => {
@@ -22,10 +27,21 @@ app.listenAsync = function (port) {
   });
 };
 
-const expect = chai.expect;
+// define server at higher scope so it is available to chai.request()
+let server;
 
-chai.use(chaiHttp);
-chai.use(chaiSpies);
+before(function () {
+  console.log('Before: start express app');
+
+  return app.listenAsync()
+    .then(instance => server = instance); // set server instance
+});
+
+after(function () {
+  console.log('After: close server');
+  return server.closeAsync();
+});
+
 
 describe('Reality check', function () {
 
@@ -52,21 +68,6 @@ describe('Environment setup', function () {
 });
 
 describe('Noteful App', function () {
-
-  // define server at higher scope so it is available to chai.request()
-  let server; 
-
-  before(function () {
-    console.log('Before: start express app');
-    
-    return app.listenAsync()
-      .then(instance => server = instance); // set server instance
-  });
-
-  after(function () {
-    console.log('After: close server');
-    return server.closeAsync();
-  });
 
   describe('Express static', function () {
 
