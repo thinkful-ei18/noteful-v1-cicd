@@ -4,9 +4,9 @@
 const DELAY = 1000;
 
 const simDB = {
-  
+
   // Synchronous Initialize
-  initialize: function(data) {
+  initialize: function (data) {
     this.nextVal = 1000;
     this.data = data.map(item => {
       item.id = this.nextVal++;
@@ -14,7 +14,7 @@ const simDB = {
     });
     return this;
   },
-  
+
   // Asynchronous CRUD operations
   create: function (newItem, callback) {
     setTimeout(() => {
