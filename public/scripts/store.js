@@ -5,7 +5,7 @@ const store = (function(){
 
   return {
     notes: [],
-    currentNote: {},
+    currentNote: false,
     currentSearchTerm: ''
   };
   
