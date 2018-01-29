@@ -19,7 +19,7 @@ const api = {
       success: callback
     });
   },
-  update: function(id, obj, callback) {
+  update: function (id, obj, callback) {
     $.ajax({
       type: 'PUT',
       url: `/v1/notes/${id}`,
@@ -29,18 +29,18 @@ const api = {
       success: callback
     });
   },
-  create: function(obj, callback) {
+  create: function (obj, callback) {
     $.ajax({
       type: 'POST',
       url: '/v1/notes',
       contentType: 'application/json',
       dataType: 'json',
-      processData:false,
+      processData: false,
       data: JSON.stringify(obj),
       success: callback
     });
   },
-  remove: function(id, callback) {
+  remove: function (id, callback) {
     return $.ajax({
       type: 'DELETE',
       url: `/v1/notes/${id}`,

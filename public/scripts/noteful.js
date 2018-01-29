@@ -54,8 +54,8 @@ const noteful = (function () {
       event.preventDefault();
 
       const searchTerm = $('.js-note-search-entry').val();
-      store.currentSearchTerm =  searchTerm ? { searchTerm } : {};
-      
+      store.currentSearchTerm = searchTerm ? { searchTerm } : {};
+
       api.search(store.currentSearchTerm, response => {
         store.notes = response;
         render();
@@ -118,7 +118,7 @@ const noteful = (function () {
       const noteId = getNoteIdFromElement(event.currentTarget);
 
       api.remove(noteId, () => {
-        
+
         api.search(store.currentSearchTerm, updateResponse => {
           store.notes = updateResponse;
           if (noteId === store.currentNote.id) {
