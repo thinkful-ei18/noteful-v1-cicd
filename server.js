@@ -39,17 +39,18 @@ app.use(function (err, req, res, next) {
 });
 
 // Promisify `listen` and resulting `server`
-app.listenAsync = function (port) {
+function runServer(port) {
   return new Promise((resolve, reject) => {
-    this.listen(port, function () {
+    app.listen(port, function () {
+      const server = this;
       const util = require('util');
-      this.closeAsync = util.promisify(this.close);
-      resolve(this);
+      server.closeServer = util.promisify(server.close);
+      resolve(server);
     }).on('error', reject);
   });
-};
+}
 
-app.listenAsync(PORT)
+runServer(PORT)
   .then(server => {
     console.info(`Server listening on ${server.address().port}`);
   })
