@@ -18,4 +18,6 @@ The repo provides several branches to serve as starters, solutions and hints alo
 
 * **solution/4-promises**: solution for converting callbacks to promises
 
-* **solution/5-testing**: solution for testing
+* **solution/5-testing**: solution for testing and continuous integration
+
+* **solution/6-extra-credit**: solution for converting promises to async-await and additional modularization
