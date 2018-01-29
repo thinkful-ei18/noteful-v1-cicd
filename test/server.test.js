@@ -6,26 +6,15 @@
  * They do not verify the responses against the data in the database. We will learn
  * how to crosscheck the API responses against the database in a later exercise.
  */
-const app = require('../server');
+const runServer = require('../server');
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const chaiSpies = require('chai-spies');
-
+const { PORT } = require('./config');
 const expect = chai.expect;
 
 chai.use(chaiHttp);
 chai.use(chaiSpies);
-
-// Promisify `listen` and resulting `server`
-app.listenAsync = function (port) {
-  return new Promise((resolve, reject) => {
-    this.listen(port, function () {
-      const util = require('util');
-      this.closeAsync = util.promisify(this.close);
-      resolve(this);
-    }).on('error', reject);
-  });
-};
 
 // define server at higher scope so it is available to chai.request()
 let server;
@@ -33,13 +22,13 @@ let server;
 before(function () {
   console.log('Before: start express app');
 
-  return app.listenAsync()
+  return runServer(PORT)
     .then(instance => server = instance); // set server instance
 });
 
 after(function () {
   console.log('After: close server');
-  return server.closeAsync();
+  return server.closeServer();
 });
 
 
@@ -62,7 +51,7 @@ describe('Environment setup', function () {
   });
 
   it('Express App should have correct methods', function () {
-    expect(app).to.have.property('listenAsync');
+    expect(server).to.have.property('listenAsync');
   });
 
 });
