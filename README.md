@@ -1,5 +1,7 @@
 # noteful-app-v1
 
+Hello World
+
 Noteful V1. Course challenge to build a RESTful API using Node/Express, Mocha, Chai and Continuous Integration via Travis CI.
 
 ## Overview
