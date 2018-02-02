@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * DISCLAIMER:
+ * DISCLAIMER: 
  * The examples shown below are superficial tests which only check the API responses.
  * They do not verify the responses against the data in the database. We will learn
  * how to crosscheck the API responses against the database in a later exercise.
