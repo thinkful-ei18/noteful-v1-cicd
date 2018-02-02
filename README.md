@@ -1,6 +1,6 @@
 # noteful-app-v1
 
-Hello World
+[![Build Status](https://travis-ci.org/thinkful-ei18/noteful-v1-cicd.svg?branch=master)](https://travis-ci.org/thinkful-ei18/noteful-v1-cicd)
 
 Noteful V1. Course challenge to build a RESTful API using Node/Express, Mocha, Chai and Continuous Integration via Travis CI.
 
