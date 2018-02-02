@@ -1,2 +1,9 @@
 language: node_js
 node_js: node
+deploy:
+  provider: heroku
+  api_key:
+    secure: u8h9heFN0d/h9AnVj3WZiLEDgwpvVwaYY+mna1dT0OX4g7W5q81/0zLYuHnf4Yye1mYxjrGm8Ugf25mmmfl6DLx3gTbhbdLuhy2vRDCUb2hDIJXgHDj+UnRiUTHF2tue0qBPQzcgBbPQOupqOk5q7a7SaRFOsPjJyA0DTyK6GW9pFdrhXKQxYA7pJvF8Ttvacs0B7zYY+hDDXFpEHHcwu02d6jURDHser/BCirZB6hF2ba6ry2ynIz0qgcCIr11GHCGkazyxagDBoAtNXupZXhiEYD/lVre1DIpvCbqT2UkSwREQAxqGHRiujZeI3Kz352iYbbuFwM+TCslRQxResZPORo6ydrIc1HJs8e9t2PBE9IgI+36I64mxN2lSCEGoKoEXHYE1UCsn8MW4qjrDDINUrLuMPb6Jb1TO7YewSRTx6/mS/Ycr5W0e1JMoL9xTKWgX+twI9sO7qVRttWc3Pp+rvE8Jo9j/DLw3Tu0jOkugcICDpsGG9wE36uAn/m6uqnILJuhnfeUYHJAq+p9PLgTyWt6gAmYNvT6aKXXlAKnTr+UO5LmcishcLuj/6ld8wGzCwdpMJjuxZ7VoIM0+B8XNKTkOtS7wcgCAeFoTFJhcinQLuhfNDaIMb6i/saGT6+sCL5PfvKl1Ook69KYxMu5JnTwFsxeOvzB+b6gBqzQ=
+  app: noteful-app-v1
+  on:
+    repo: cklanac/noteful-v1
