@@ -6,31 +6,14 @@
  * They do not verify the responses against the data in the database. We will learn
  * how to crosscheck the API responses against the database in a later exercise.
  */
-const runServer = require('../server');
+const app = require('../server');
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const chaiSpies = require('chai-spies');
-const { PORT } = require('./config');
 const expect = chai.expect;
 
 chai.use(chaiHttp);
 chai.use(chaiSpies);
-
-// define server at higher scope so it is available to chai.request()
-let server;
-
-before(function () {
-  console.log('Before: start express app');
-
-  return runServer(PORT)
-    .then(instance => server = instance); // set server instance
-});
-
-after(function () {
-  console.log('After: close server');
-  return server.closeServer();
-});
-
 
 describe('Reality check', function () {
 
@@ -44,24 +27,12 @@ describe('Reality check', function () {
 
 });
 
-describe('Environment setup', function () {
-
-  it('NODE_ENV should be "test"', function () {
-    expect(process.env.NODE_ENV).to.equal('test');
-  });
-
-  it('Express App should have correct methods', function () {
-    expect(server).to.have.property('listenAsync');
-  });
-
-});
-
 describe('Noteful App', function () {
 
   describe('Express static', function () {
 
     it('GET request "/" should return the index page', function () {
-      return chai.request(server)
+      return chai.request(app)
         .get('/')
         .then(function (res) {
           expect(res).to.exist;
@@ -76,7 +47,7 @@ describe('Noteful App', function () {
 
     it('should respond with 404 when given a bad path', function () {
       const spy = chai.spy();
-      return chai.request(server)
+      return chai.request(app)
         .get('/bad/path')
         .then(spy)
         .then(() => {
@@ -92,7 +63,7 @@ describe('Noteful App', function () {
   describe('GET /v1/notes', function () {
 
     it('should return the default of 10 Notes ', function () {
-      return chai.request(server)
+      return chai.request(app)
         .get('/v1/notes')
         .then(function (res) {
           expect(res).to.have.status(200);
@@ -103,7 +74,7 @@ describe('Noteful App', function () {
     });
 
     it('should return a list with the correct right fields', function () {
-      return chai.request(server)
+      return chai.request(app)
         .get('/v1/notes')
         .then(function (res) {
           expect(res).to.have.status(200);
@@ -118,7 +89,7 @@ describe('Noteful App', function () {
     });
 
     it('should return correct search results for a valid query', function () {
-      return chai.request(server)
+      return chai.request(app)
         .get('/v1/notes?searchTerm=5%20life')
         .then(function (res) {
           expect(res).to.have.status(200);
@@ -131,7 +102,7 @@ describe('Noteful App', function () {
     });
 
     it('should return an empty array for an incorrect query', function () {
-      return chai.request(server)
+      return chai.request(app)
         .get('/v1/notes?searchTerm=Not%20a%20Valid%20Search')
         .then(function (res) {
           expect(res).to.have.status(200);
@@ -146,7 +117,7 @@ describe('Noteful App', function () {
   describe('GET /v1/notes/:id', function () {
 
     it('should return correct notes', function () {
-      return chai.request(server)
+      return chai.request(app)
         .get('/v1/notes/1000')
         .then(function (res) {
           expect(res).to.have.status(200);
@@ -160,7 +131,7 @@ describe('Noteful App', function () {
 
     it('should respond with a 404 for an invalid id', function () {
       const spy = chai.spy();
-      return chai.request(server)
+      return chai.request(app)
         .get('/v1/notes/9999')
         .then(spy)
         .then(() => {
@@ -180,7 +151,7 @@ describe('Noteful App', function () {
         'title': 'The best article about cats ever!',
         'content': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor...'
       };
-      return chai.request(server)
+      return chai.request(app)
         .post('/v1/notes')
         .send(newItem)
         .then(function (res) {
@@ -201,7 +172,7 @@ describe('Noteful App', function () {
         'foo': 'bar'
       };
       const spy = chai.spy();
-      return chai.request(server)
+      return chai.request(app)
         .post('/v1/notes')
         .send(newItem)
         .then(spy)
@@ -226,7 +197,7 @@ describe('Noteful App', function () {
         'title': 'What about dogs?!',
         'content': 'woof woof'
       };
-      return chai.request(server)
+      return chai.request(app)
         .put('/v1/notes/1005')
         .send(updateItem)
         .then(function (res) {
@@ -247,7 +218,7 @@ describe('Noteful App', function () {
         'content': 'woof woof'
       };
       const spy = chai.spy();
-      return chai.request(server)
+      return chai.request(app)
         .put('/v1/notes/9999')
         .send(updateItem)
         .then(spy)
@@ -264,7 +235,7 @@ describe('Noteful App', function () {
         'foo': 'bar'
       };
       const spy = chai.spy();
-      return chai.request(server)
+      return chai.request(app)
         .put('/v1/notes/9999')
         .send(updateItem)
         .then(spy)
@@ -285,7 +256,7 @@ describe('Noteful App', function () {
   describe('DELETE  /v1/notes/:id', function () {
 
     it('should delete an item by id', function () {
-      return chai.request(server)
+      return chai.request(app)
         .delete('/v1/notes/1005')
         .then(function (res) {
           expect(res).to.have.status(204);
@@ -294,7 +265,7 @@ describe('Noteful App', function () {
 
     it('should respond with a 404 for an invalid id', function () {
       const spy = chai.spy();
-      return chai.request(server)
+      return chai.request(app)
         .delete('/v1/notes/9999')
         .then(spy)
         .then(() => {

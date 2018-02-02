@@ -9,10 +9,8 @@ const notesRouter = require('./routers/notes.router');
 // Create an Express application
 const app = express();
 
-// Log all requests. Skip logging during tests
-app.use(morgan(process.env.NODE_ENV === 'development' ? 'dev' : 'common', {
-  skip: () => process.env.NODE_ENV === 'test'
-}));
+// Log all requests
+app.use(morgan('dev'));
 
 // Create a static webserver
 app.use(express.static('public'));
@@ -25,7 +23,7 @@ app.use('/v1', notesRouter);
 
 // Catch-all 404
 app.use(function (req, res, next) {
-  var err = new Error('Not Found');
+  const err = new Error('Not Found');
   err.status = 404;
   next(err);
 });
@@ -36,28 +34,17 @@ app.use(function (err, req, res, next) {
   res.status(err.status || 500);
   res.json({
     message: err.message,
-    error: (process.env.NODE_ENV === 'development') ? err : {}
+    error: app.get('env') === 'development' ? err : {}
   });
 });
 
-// Promisify `listen` and resulting `server`
-function runServer(port) {
-  return new Promise((resolve, reject) => {
-    app.listen(port, function () {
-      const server = this;
-      const util = require('util');
-      server.closeServer = util.promisify(server.close);
-      resolve(server);
-    }).on('error', reject);
+// Listen for incoming connections
+if (require.main === module) {
+  app.listen(PORT, function () {
+    console.info(`Server listening on ${this.address().port}`);
+  }).on('error', err => {
+    console.error(err);
   });
 }
 
-if (require.main === module) {
-  runServer(PORT)
-    .then(server => {
-      console.info(`Server listening on ${server.address().port}`);
-    })
-    .catch(console.error);
-}
-
-module.exports = runServer; // Export for testing
+module.exports = app; // Export for testing
